@@ -22,25 +22,47 @@ session_start();
 
         body {
             min-height: 100vh;
-            background: #f4f6f8;
+
+            /* Background image */
+            background-image:
+                linear-gradient(
+                    rgba(0, 0, 0, 0.35),
+                    rgba(0, 0, 0, 0.35)
+                ),
+                url('assets/images/docmarly_bg.png');
+
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             font-family: Arial, sans-serif;
+            padding: 20px;
         }
 
         .login-card {
             width: 100%;
             max-width: 420px;
+
             border: none;
             border-radius: 25px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.10);
+
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+
             overflow: hidden;
+
+            background: white;
         }
 
         .login-header {
-            background: #b30000;
+            background: #1c5bba;
+
             padding: 35px;
+
             text-align: center;
             color: white;
         }
@@ -48,7 +70,9 @@ session_start();
         .login-header img {
             width: 90px;
             height: 90px;
+
             object-fit: contain;
+
             margin-bottom: 15px;
         }
 
@@ -61,11 +85,21 @@ session_start();
             border-radius: 12px;
         }
 
+        .form-control:focus {
+            border-color: #1c5bba;
+
+            box-shadow:
+                0 0 0 0.2rem rgba(179, 0, 0, 0.15);
+        }
+
         .login-btn {
             height: 50px;
+
             border-radius: 12px;
-            background: #b30000;
+
+            background: #1c5bba;
             border: none;
+
             color: white;
             font-weight: 600;
         }
@@ -85,8 +119,8 @@ session_start();
     <div class="login-header">
 
         <img
-            src="assets/images/logo.png"
-            alt="Logo"
+            src="assets/images/seal.png"
+            alt="Doc Marly Logo"
         >
 
         <h3 class="mb-1">

@@ -2,7 +2,9 @@
     "name": "hatdog/php-project",
     "description": "My PHP project",
     "type": "project",
-    "require": {},
+    "require": {
+        "phpmailer/phpmailer": "*"
+    },
     "autoload": {
         "psr-4": {
             "App\\": "src/"
