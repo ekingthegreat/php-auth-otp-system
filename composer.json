@@ -1,0 +1,11 @@
+{
+    "name": "hatdog/php-project",
+    "description": "My PHP project",
+    "type": "project",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}
