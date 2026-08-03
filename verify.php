@@ -2,6 +2,57 @@
 
 session_start();
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $code = trim($_POST['code'] ?? '');
+
+    if (!preg_match('/^\d{6}$/', $code)) {
+
+        $_SESSION['error'] = 'Please enter a valid 6-digit code.';
+
+        header('Location: verify.php');
+        exit;
+    }
+
+    if (
+        !isset($_SESSION['verification_expires']) ||
+        time() > $_SESSION['verification_expires']
+    ) {
+
+        $_SESSION['error'] =
+            'The verification code has expired.';
+
+        header('Location: verify.php');
+        exit;
+    }
+
+    if (
+        !password_verify(
+            $code,
+            $_SESSION['verification_code']
+        )
+    ) {
+
+        $_SESSION['error'] =
+            'Incorrect verification code.';
+
+        header('Location: verify.php');
+        exit;
+    }
+
+    $_SESSION['user_id'] =
+        $_SESSION['verification_user_id'];
+
+    unset(
+        $_SESSION['verification_user_id'],
+        $_SESSION['verification_code'],
+        $_SESSION['verification_expires']
+    );
+
+    header('Location: dashboard.php');
+    exit;
+}
+
 if (
     !isset($_SESSION['verification_user_id']) ||
     !isset($_SESSION['verification_code'])
@@ -145,70 +196,3 @@ if (
 </body>
 
 </html>
-
-<?php
-
-/*
-|--------------------------------------------------------------------------
-| Process OTP
-|--------------------------------------------------------------------------
-*/
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    $code = trim($_POST['code'] ?? '');
-
-    if (!preg_match('/^\d{6}$/', $code)) {
-
-        $_SESSION['error'] =
-            'Please enter a valid 6-digit code.';
-
-        header('Location: verify.php');
-        exit;
-    }
-
-    if (
-        !isset($_SESSION['verification_expires']) ||
-        time() > $_SESSION['verification_expires']
-    ) {
-
-        $_SESSION['error'] =
-            'The verification code has expired.';
-
-        header('Location: verify.php');
-        exit;
-    }
-
-    if (
-        !password_verify(
-            $code,
-            $_SESSION['verification_code']
-        )
-    ) {
-
-        $_SESSION['error'] =
-            'Incorrect verification code.';
-
-        header('Location: verify.php');
-        exit;
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Verification successful
-    |--------------------------------------------------------------------------
-    */
-
-    $_SESSION['user_id'] =
-        $_SESSION['verification_user_id'];
-
-    unset(
-        $_SESSION['verification_user_id'],
-        $_SESSION['verification_code'],
-        $_SESSION['verification_expires']
-    );
-
-    header('Location: dashboard.php');
-    exit;
-}
-?>
